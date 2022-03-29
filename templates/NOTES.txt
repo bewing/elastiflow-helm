@@ -1,0 +1,36 @@
+CHART NAME: {{ .Chart.Name  }}
+CHART VERSION: {{ .Chart.Version  }}
+APP VERSION: {{ .Chart.AppVersion  }}
+
+** Please be patient while the chart is being deployed **
+
+For ingress considerations, please see https://kubernetes.github.io/ingress-nginx/user-guide/exposing-tcp-udp-services/
+
+It is advised not to scale the Deployment past a single pod without reviewing the documentation
+
+Update your network device configurations to send flow records to the following location:
+
+{{- if contains "NodePort" .Values.service.type }}
+
+    export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
+    export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ printf "%s" (include "common.names.fullname" .) }})
+    echo "$NODE_IP:$NODE_PORT"
+
+{{- else if contains "LoadBalancer" .Values.service.type }}
+
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        Watch the status with: 'kubectl get svc --namespace {{ .Release.Namespace }} -w {{ printf "%s" (include "common.names.fullname" .) }}'
+
+    export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ printf "%s" (include "common.names.fullname" .) }} --template "{{"{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}"}}")
+
+    echo "$SERVICE_IP:{{ .Values.service.port }}"
+
+{{- end }}
+  
+    In-cluster flow generators can send their records to the Cluster IP:
+
+    export CLUSTER_IP=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.clusterIP}" {{ include "common.names.fullname" . }})
+    echo "$CLUSTER_IP:{{ .Values.service.ports.elastiflow }}"
+
+{{- include "common.warnings.rollingTag" .Values.image }}
+{{- include "elastiflow.validateValues" . }}

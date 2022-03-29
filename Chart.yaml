@@ -1,0 +1,18 @@
+apiVersion: v2
+appVersion: 5.3.5
+dependencies:
+  - name: common
+    repository: https://charts.bitnami.com/bitnami
+    tags:
+      - bitnami-common
+    version: 1.x.x
+description: A unified flow collector
+engine: gotpl
+home: https://www.elastiflow.com/
+maintainers:
+  - email: brandon.ewing@imc.com
+    name: Brandon Ewing
+name: elastiflow
+sources:
+  - https://github.com/imc-trading/elastiflow-helm
+version: 0.1.0
