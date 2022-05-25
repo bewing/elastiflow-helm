@@ -16,7 +16,7 @@ It bootstraps a Elastiflow deployment on a Kubernetes cluster using Helm
 
 ## Scaling and limitations
 
-Please note that the current (5.3.5) release of Elastiflow does not have a shared cache.  You should not scale the
+Please note that the current (5.4.1) release of Elastiflow does not have a shared cache.  You should not scale the
 deployment past a single pod unless you are using a proxy mode that supports deterministic hashing (IPVS or eBPF), so
 that devices that send IPFIX templates only send their flow records to the collector that received the template.
 
@@ -86,7 +86,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | `config`                             | Elastiflow environment variable config                                                    | [See docs](https://docs.Elastiflow.com/docs/config_ref) |
 | `image.registry`                     | Elastiflow image registry                                                                 | `docker.io`                 |
 | `image.repository`                   | Elastiflow image repository                                                               | `elastiflow/flow-collector` |
-| `image.tag`                          | Elastiflow image tag (immutable tags are recommended)                                     | `5.3.5`                     |
+| `image.tag`                          | Elastiflow image tag (immutable tags are recommended)                                     | `5.4.1`                     |
 | `image.pullPolicy`                   | Elastiflow image pull policy                                                              | `IfNotPresent`              |
 | `image.pullSecrets`                  | Elastiflow image pull secrets                                                             | `[]`                        |
 | `hostNetwork`                        | Enable/disable host network mode in pod                                                   | `false`                     |
